@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEON CYBERSPORT · только имена</title>
+  <style>
+    /* ===== МЯГКИЙ КИБЕРПАНК (БЕЗ КАРТИНОК) ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Orbitron', 'Segoe UI', system-ui, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(145deg, #0b121c 0%, #1a1f2e 100%);
+      color: #cdd9f4;
+      line-height: 1.6;
+      min-height: 100vh;
+      padding: 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: repeating-linear-gradient(0deg, rgba(100, 180, 255, 0.02) 0px, rgba(160, 130, 255, 0.02) 2px, transparent 3px, transparent 6px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      background: rgba(18, 25, 40, 0.7);
+      backdrop-filter: blur(10px);
+      border: 1px solid #5f7fbf;
+      box-shadow: 0 0 20px #3a5f8f88, inset 0 0 10px #2f4f7f66;
+      border-radius: 40px 40px 20px 20px;
+      padding: 30px 25px;
+      position: relative;
+      z-index: 2;
+    }
+
+    h1, h2, h3 {
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      text-shadow: 0 0 4px #7aaae0, 0 0 10px #7f5fd0;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      background: linear-gradient(135deg, #b0a0ff, #7fc9ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 6px #6f8fef);
+    }
+
+    .nav-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin: 30px 0 20px;
+      border-bottom: 1px solid #5f7faf;
+      padding-bottom: 15px;
+    }
+
+    .nav-btn {
+      background: transparent;
+      border: 2px solid #9f7fd0;
+      color: #d0b0ff;
+      padding: 12px 28px;
+      font-weight: 600;
+      font-size: 1.2rem;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 50px;
+      transition: 0.2s;
+      box-shadow: 0 0 8px #8f7fd0;
+      backdrop-filter: blur(4px);
+    }
+
+    .nav-btn:hover, .nav-btn.active {
+      background: #5f6faf;
+      color: #f0f5ff;
+      box-shadow: 0 0 18px #8fb0ff, 0 0 32px #8f7fd0;
+      border-color: #b0c0ff;
+      transform: scale(1.02);
+    }
+
+    .section {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      min-height: 400px;
+    }
+
+    .section.active {
+      display: block;
+      opacity: 1;
+    }
+
+    /* карточки без изображений — только текст */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 25px;
+      margin-top: 25px;
+    }
+
+    .card {
+      background: rgba(28, 35, 55, 0.6);
+      border: 1px solid #6f8fcf;
+      border-radius: 32px;
+      padding: 25px 15px;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 0 15px #3a5f8f66, inset 0 0 8px #5f7faf66;
+      transition: 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: #af9fff;
+      box-shadow: 0 0 22px #7f9fff, inset 0 0 12px #9fb0ff;
+    }
+
+    .card h3 {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+      color: #d7e2ff;
+    }
+
+    .card p {
+      color: #b0c9f0;
+      font-size: 1rem;
+      margin: 4px 0;
+    }
+
+    /* формы */
+    .neon-input, .neon-select, textarea {
+      background: #1f293f;
+      border: 2px solid #6f8fcf;
+      border-radius: 50px;
+      padding: 14px 22px;
+      color: #d0e0ff;
+      font-weight: 500;
+      outline: none;
+      width: 100%;
+      margin-bottom: 15px;
+      box-shadow: 0 0 10px #4f6f9f, inset 0 0 5px #2f4f7f;
+    }
+
+    .neon-input:focus, .neon-select:focus {
+      border-color: #af9fff;
+      box-shadow: 0 0 22px #7f9fff;
+    }
+
+    .neon-btn {
+      background: transparent;
+      border: 2px solid #7f9fff;
+      color: #c0d4ff;
+      padding: 14px 32px;
+      font-weight: 600;
+      border-radius: 60px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 0 10px #5f7fcf;
+      margin-right: 10px;
+    }
+
+    .neon-btn:hover {
+      background: #4f6faf;
+      color: #ffffff;
+      box-shadow: 0 0 25px #7f9fff, 0 0 50px #6f8fff;
+    }
+
+    /* турнирная сетка */
+    .bracket {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 40px;
+      margin: 30px 0;
+    }
+
+    .round {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+
+    .match {
+      background: #1f2b3f;
+      border: 2px solid #8f7fd0;
+      border-radius: 40px;
+      padding: 18px 30px;
+      min-width: 200px;
+      text-align: center;
+      box-shadow: 0 0 18px #6f7fcf;
+    }
+
+    .match .team {
+      font-weight: 600;
+      font-size: 1.3rem;
+      color: #eaf0ff;
+      text-shadow: 0 0 6px #7f9fff;
+    }
+
+    .match .score {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #fadf8a;
+      filter: drop-shadow(0 0 6px #ffd966);
+    }
+
+    /* список турниров */
+    .tournament-item {
+      background: #1a2538;
+      border-left: 12px solid #7f9fff;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 40px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      align-items: center;
+      box-shadow: 0 0 18px #3f5f8f;
+    }
+
+    .tournament-item .info h3 {
+      color: #c4d5ff;
+    }
+
+    .tournament-item .actions button {
+      background: none;
+      border: 2px solid #af9fff;
+      color: #d0bbff;
+      padding: 8px 18px;
+      border-radius: 40px;
+      margin: 5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .tournament-item .actions button:hover {
+      background: #6f7fd0;
+      color: white;
+      box-shadow: 0 0 16px #8f9fff;
+    }
+
+    .filter-panel {
+      background: #1e2b3e;
+      border-radius: 60px;
+      padding: 30px;
+      border: 2px solid #8f7fd0;
+      box-shadow: inset 0 0 20px #3f5f8f;
+      margin-bottom: 30px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      align-items: center;
+    }
+
+    footer {
+      margin-top: 60px;
+      text-align: center;
+      color: #8fa8d0;
+      border-top: 1px dashed #6f8fbf;
+      padding-top: 20px;
+    }
+
+    @media (max-width: 700px) {
+      h1 { font-size: 2rem; }
+      .nav-btn { padding: 8px 16px; font-size: 1rem; }
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+
+  <header style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
+    <h1>⚡NEON·ARENA⚡</h1>
+    <div style="color: #9fb0f0; text-shadow: 0 0 5px #7f8fcf;">create · compete · enjoy</div>
+  </header>
+
+  <!-- навигация -->
+  <div class="nav-bar">
+    <button class="nav-btn active" data-section="home">Главная</button>
+    <button class="nav-btn" data-section="tournaments">Турниры</button>
+    <button class="nav-btn" data-section="teams">Команды</button>
+    <button class="nav-btn" data-section="news">Новости</button>
+    <button class="nav-btn" data-section="findplayers">Подбор игроков</button>
+  </div>
+
+  <!-- ========== ГЛАВНАЯ (БЕЗ КАРТИНОК) ========= -->
+  <section id="home" class="section active">
+    <h2>▶ ПОСЛЕДНИЕ СОБЫТИЯ</h2>
+    <div class="card-grid">
+      <div class="card">
+        <h3>Yatoro</h3>
+        <p>Team Spirit · Dota 2<br>«The International 2024 MVP»</p>
+      </div>
+      <div class="card">
+        <h3>ZywOo</h3>
+        <p>Vitality · CS2<br>#1 HLTV 2024</p>
+      </div>
+      <div class="card">
+        <h3>TenZ</h3>
+        <p>Sentinels · Valorant<br>Champions 2023</p>
+      </div>
+    </div>
+    <div style="margin-top: 40px;">
+      <h2>▶ ЗАПУСТИ СВОЙ ТУРНИР</h2>
+      <p style="font-size: 1.3rem; max-width: 700px; color: #ccd9ff;">Создавай сетки, добавляй результаты, сохраняй историю. Мягкий неон ждёт.</p>
+      <button class="neon-btn" onclick="document.querySelector('[data-section=tournaments]').click()">➕ СОЗДАТЬ ТУРНИР</button>
+    </div>
+    <!-- дополнительные фото удалены -->
+  </section>
+
+  <!-- ========== ТУРНИРЫ ========= -->
+  <section id="tournaments" class="section">
+    <h2>⚔ СОЗДАТЬ / РЕДАКТИРОВАТЬ ТУРНИР</h2>
+    <div style="background: #1f2b3f; padding: 30px; border-radius: 60px; margin: 20px 0;">
+      <h3>НОВЫЙ ТУРНИР</h3>
+      <input type="text" id="tournName" class="neon-input" placeholder="Название турнира (например, NEON CUP)">
+      <select id="tournGame" class="neon-select">
+        <option value="Dota 2">Dota 2</option>
+        <option value="CS:GO 2">CS:GO 2</option>
+        <option value="Valorant">Valorant</option>
+      </select>
+      <input type="date" id="tournDate" class="neon-input">
+      <input type="text" id="tournPrize" class="neon-input" placeholder="Призовой пул (например, 10000$)">
+      <textarea id="tournTeams" class="neon-input" placeholder="Команды (через запятую)"></textarea>
+      <button class="neon-btn" id="saveTournamentBtn">💾 СОХРАНИТЬ ТУРНИР</button>
+    </div>
+
+    <div id="tournamentList" style="margin-top: 30px;">
+      <h3>📋 ПРОШЕДШИЕ / АКТИВНЫЕ ТУРНИРЫ</h3>
+      <!-- список -->
+    </div>
+
+    <div id="bracketPreview" style="margin-top: 40px; background: #1a263a; border-radius: 60px; padding: 30px;">
+      <h3>🔮 СЕТКА ПОСЛЕДНЕГО ТУРНИРА (пример)</h3>
+      <div class="bracket">
+        <div class="round">
+          <div class="match"><div class="team">Team Spirit</div><div class="score">2</div></div>
+          <div class="match"><div class="team">Falcons</div><div class="score">0</div></div>
+        </div>
+        <div class="round">
+          <div class="match"><div class="team">Liquid</div><div class="score">2</div></div>
+          <div class="match"><div class="team">G2</div><div class="score">1</div></div>
+        </div>
+        <div class="round">
+          <div class="match"><div class="team">Spirit</div><div class="score">3</div></div>
+          <div class="match"><div class="team">Liquid</div><div class="score">1</div></div>
+        </div>
+      </div>
+      <p style="text-align: center; color: #b0c5f0;">*сетка обновится после добавления результатов</p>
+    </div>
+  </section>
+
+  <!-- ========== КОМАНДЫ ========= -->
+  <section id="teams" class="section">
+    <h2>▸ КОМАНДЫ ПО ИГРАМ</h2>
+    <div style="display: flex; gap: 10px; margin-bottom: 20px;" class="filter-panel">
+      <button class="neon-btn" data-filter="all">Все</button>
+      <button class="neon-btn" data-filter="Dota 2">Dota 2</button>
+      <button class="neon-btn" data-filter="CS:GO 2">CS:GO 2</button>
+      <button class="neon-btn" data-filter="Valorant">Valorant</button>
+    </div>
+    <div class="card-grid" id="teamsGrid"></div>
+  </section>
+
+  <!-- ========== НОВОСТИ ========= -->
+  <section id="news" class="section">
+    <h2>📰 КИБЕРНОВОСТИ</h2>
+    <div class="card-grid">
+      <div class="card">
+        <h3>⚡BetBoom забрали PGL</h3>
+        <p>BetBoom Team — чемпион PGL Wallachia, 3:0 над Falcons. Призовые $1.000.000</p>
+        <small>2 дня назад</small>
+      </div>
+      <div class="card">
+        <h3>🔫 FaZe Clan обновляет состав</h3>
+        <p>В CS2 ростер FaZe покидает Twistzz, слухи о возвращении karrigan.</p>
+        <small>5 часов назад</small>
+      </div>
+      <div class="card">
+        <h3>✨ TenZ возвращается</h3>
+        <p>Звезда Sentinels объявил о возвращении на про-сцену после перерыва.</p>
+        <small>вчера</small>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== ПОДБОР ИГРОКОВ ========= -->
+  <section id="findplayers" class="section">
+    <h2>🎮 НАЙДИ ТИММЕЙТОВ</h2>
+    <div class="filter-panel">
+      <select id="gameFilter" class="neon-select" style="width: auto; min-width: 200px;">
+        <option value="all">Все игры</option>
+        <option value="Dota 2">Dota 2</option>
+        <option value="CS:GO 2">CS:GO 2</option>
+        <option value="Valorant">Valorant</option>
+      </select>
+      <select id="roleFilter" class="neon-select" style="width: auto; min-width: 200px;">
+        <option value="all">Любая роль</option>
+        <option value="Керри">Керри</option>
+        <option value="Мидер">Мидер</option>
+        <option value="Снайпер">Снайпер</option>
+        <option value="Капитан">Капитан/Igl</option>
+      </select>
+      <input type="range" id="ratingRange" min="1" max="10" value="7" class="neon-input" style="width:300px">
+      <span id="ratingVal" style="color:#c0d0ff;">⭐ 7+</span>
+      <button class="neon-btn" id="filterPlayersBtn">ПОДОБРАТЬ</button>
+    </div>
+    <div class="card-grid" id="playersGrid"></div>
+  </section>
+
+  <footer>
+    <p>NEON-ARENA 2025 · мягкий киберпанк · данные сохраняются локально</p>
+  </footer>
+</div>
+
+<script>
+  (function() {
+    // ========== ДАННЫЕ (БЕЗ ССЫЛОК НА ИЗОБРАЖЕНИЯ) =========
+    let tournaments = [];
+    const teamsData = [
+      { name: 'Team Spirit', game: 'Dota 2', players: 'Yatoro, Mira, Collapse, Larl, Miposhka' },
+      { name: 'Falcons', game: 'Dota 2', players: 'Skiter, Malr1ne, ATF, Cr1t-, Sneyking' },
+      { name: 'FaZe Clan', game: 'CS:GO 2', players: 'rain, frozen, karrigan, ropz, broky' },
+      { name: 'Vitality', game: 'CS:GO 2', players: 'ZywOo, apEX, flameZ, Spinx, mezii' },
+      { name: 'Sentinels', game: 'Valorant', players: 'TenZ, Zellsis, Sacy, pANcada, zekken' },
+      { name: 'LOUD', game: 'Valorant', players: 'Less, Saadhak, tuyz, cauanzin, qck' },
+    ];
+
+    const playersDB = [
+      { name: 'Yatoro', game: 'Dota 2', role: 'Керри', rating: 10 },
+      { name: 'mONESY', game: 'CS:GO 2', role: 'Снайпер', rating: 9 },
+      { name: 'TenZ', game: 'Valorant', role: 'Дуэлянт', rating: 10 },
+      { name: 'Collapse', game: 'Dota 2', role: 'Офлейнер', rating: 9 },
+      { name: 'ZywOo', game: 'CS:GO 2', role: 'Снайпер', rating: 10 },
+      { name: 'karrigan', game: 'CS:GO 2', role: 'Капитан', rating: 9 },
+      { name: 'aspas', game: 'Valorant', role: 'Дуэлянт', rating: 9 },
+      { name: 'Mira', game: 'Dota 2', role: 'Саппорт', rating: 8 },
+    ];
+
+    // ========== ЗАГРУЗКА ТУРНИРОВ =========
+    function loadTournaments() {
+      const stored = localStorage.getItem('neon_tournaments');
+      if (stored) {
+        tournaments = JSON.parse(stored);
+      } else {
+        tournaments = [{
+          id: Date.now() - 100000,
+          name: 'NEON CUP #1',
+          game: 'Dota 2',
+          date: '2025-05-20',
+          prize: '5000$',
+          teams: 'Spirit, Falcons, Liquid, G2',
+          results: []
+        }];
+      }
+    }
+    loadTournaments();
+
+    function saveTournaments() {
+      localStorage.setItem('neon_tournaments', JSON.stringify(tournaments));
+    }
+
+    // ========== ОТОБРАЖЕНИЕ ТУРНИРОВ =========
+    function renderTournamentList() {
+      const container = document.getElementById('tournamentList');
+      if (!container) return;
+      let html = '';
+      tournaments.forEach((t, index) => {
+        html += `<div class="tournament-item">
+          <div class="info">
+            <h3>${t.name} (${t.game})</h3>
+            <p>📅 ${t.date} | 🏆 ${t.prize} | 🧾 команды: ${t.teams}</p>
+          </div>
+          <div class="actions">
+            <button class="add-result-btn" data-index="${index}">➕ добавить результат</button>
+            <button class="show-bracket-btn" data-index="${index}">🔮 сетка</button>
+          </div>
+        </div>`;
+      });
+      container.innerHTML = html || '<p>Турниров пока нет. Создай первый!</p>';
+
+      document.querySelectorAll('.add-result-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const idx = e.target.dataset.index;
+          const tourn = tournaments[idx];
+          const result = prompt(`Введите результат (например, Spirit 3:2 Falcons) для ${tourn.name}`);
+          if (result) {
+            if (!tourn.results) tourn.results = [];
+            tourn.results.push(result);
+            saveTournaments();
+            renderTournamentList();
+          }
+        });
+      });
+
+      document.querySelectorAll('.show-bracket-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const idx = e.target.dataset.index;
+          const tourn = tournaments[idx];
+          const preview = document.getElementById('bracketPreview');
+          if (preview) {
+            preview.innerHTML = `<h3>🔮 СЕТКА: ${tourn.name}</h3>` + 
+              (tourn.results?.length ? tourn.results.map(r => `<p>⚡ ${r}</p>`).join('') : '<p>Результатов пока нет</p>');
+          }
+        });
+      });
+    }
+
+    // ========== СОХРАНЕНИЕ НОВОГО ТУРНИРА =========
+    document.getElementById('saveTournamentBtn')?.addEventListener('click', () => {
+      const name = document.getElementById('tournName').value.trim();
+      const game = document.getElementById('tournGame').value;
+      const date = document.getElementById('tournDate').value;
+      const prize = document.getElementById('tournPrize').value.trim();
+      const teams = document.getElementById('tournTeams').value.trim();
+
+      if (!name || !date || !prize || !teams) {
+        alert('❌ Заполни все поля!');
+        return;
+      }
+
+      const newTourn = {
+        id: Date.now(),
+        name, game, date, prize, teams,
+        results: []
+      };
+      tournaments.push(newTourn);
+      saveTournaments();
+      renderTournamentList();
+
+      document.getElementById('tournName').value = '';
+      document.getElementById('tournDate').value = '';
+      document.getElementById('tournPrize').value = '';
+      document.getElementById('tournTeams').value = '';
+    });
+
+    // ========== КОМАНДЫ (БЕЗ КАРТИНОК) =========
+    function renderTeams(filter = 'all') {
+      const grid = document.getElementById('teamsGrid');
+      if (!grid) return;
+      let filtered = teamsData;
+      if (filter !== 'all') filtered = teamsData.filter(t => t.game === filter);
+      grid.innerHTML = filtered.map(t => `
+        <div class="card">
+          <h3>${t.name}</h3>
+          <p>${t.game}<br>${t.players}</p>
+        </div>
+      `).join('');
+    }
+
+    // ========== ПОДБОР ИГРОКОВ (БЕЗ КАРТИНОК) =========
+    function renderPlayers(filterGame = 'all', filterRole = 'all', minRating = 7) {
+      const grid = document.getElementById('playersGrid');
+      if (!grid) return;
+      let filtered = playersDB.filter(p => p.rating >= minRating);
+      if (filterGame !== 'all') filtered = filtered.filter(p => p.game === filterGame);
+      if (filterRole !== 'all') filtered = filtered.filter(p => p.role === filterRole);
+      grid.innerHTML = filtered.map(p => `
+        <div class="card">
+          <h3>${p.name}</h3>
+          <p>${p.game} · ${p.role}<br>рейтинг: ${'⭐'.repeat(p.rating)}</p>
+        </div>
+      `).join('');
+    }
+
+    // ========== НАВИГАЦИЯ =========
+    const sections = document.querySelectorAll('.section');
+    const navBtns = document.querySelectorAll('.nav-btn');
+    navBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetId = btn.dataset.section;
+        sections.forEach(s => s.classList.remove('active'));
+        navBtns.forEach(b => b.classList.remove('active'));
+        document.getElementById(targetId).classList.add('active');
+        btn.classList.add('active');
+
+        if (targetId === 'teams') renderTeams('all');
+        if (targetId === 'findplayers') renderPlayers('all', 'all', 7);
+        if (targetId === 'tournaments') renderTournamentList();
+      });
+    });
+
+    // фильтр команд
+    document.querySelectorAll('[data-filter]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const filter = e.target.dataset.filter;
+        renderTeams(filter === 'all' ? 'all' : filter);
+      });
+    });
+
+    // подбор игроков
+    const ratingSlider = document.getElementById('ratingRange');
+    const ratingSpan = document.getElementById('ratingVal');
+    if (ratingSlider) {
+      ratingSlider.addEventListener('input', () => {
+        ratingSpan.innerText = '⭐ ' + ratingSlider.value + '+';
+      });
+    }
+    document.getElementById('filterPlayersBtn')?.addEventListener('click', () => {
+      const game = document.getElementById('gameFilter').value;
+      const role = document.getElementById('roleFilter').value;
+      const min = parseInt(ratingSlider.value, 10);
+      renderPlayers(game, role, min);
+    });
+
+    // инициализация
+    renderTournamentList();
+    renderTeams('all');
+    renderPlayers('all','all',7);
+  })();
+</script>
+</body>
+</html>
